@@ -35,7 +35,6 @@ int main(int argc, char const *argv[])
     case 'B':
     case 'C':
     case 'M':
-
     case 'P':
       n += 3;
       break;
