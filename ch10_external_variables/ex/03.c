@@ -1,0 +1,1 @@
+// infinite: can declare in every different block.
