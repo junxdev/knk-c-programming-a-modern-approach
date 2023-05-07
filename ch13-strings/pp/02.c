@@ -11,8 +11,8 @@ int read_line(char str[], int n);
 int main(int argc, char const *argv[])
 {
   char reminders[MAX_REMIND][MSG_LEN + 3];
-  char day_str[3], msg_str[MSG_LEN + 1];
-  int day, i, j, num_remind = 0;
+  char time_str[12], msg_str[MSG_LEN + 1];
+  int month, day, hour, minute, i, j, num_remind = 0;
 
   for (;;)
   {
@@ -22,20 +22,27 @@ int main(int argc, char const *argv[])
       break;
     }
 
-    printf("Enter day and reminder: ");
-    scanf("%2d", &day);
-    if (day == 0)
+    printf("Enter time and reminder: ");
+    scanf("%2d", &month);
+    if (month == 0)
       break;
-    sprintf(day_str, "%2d", day);
+    scanf("/%2d %2d:%2d", &day, &hour, &minute);
+    sprintf(time_str, "%2d/%2d %2d:%2d", month, day, hour, minute);
     read_line(msg_str, MSG_LEN);
 
+    if (day < 0 || day > 31)
+    {
+      printf("Invalid day number\n");
+      continue;
+    }
+
     for (i = 0; i < num_remind; i++)
-      if (strcmp(day_str, reminders[i]) < 0)
+      if (strcmp(time_str, reminders[i]) < 0)
         break;
     for (j = num_remind; j > i; j--)
       strcpy(reminders[j], reminders[j - 1]);
 
-    strcpy(reminders[i], day_str);
+    strcpy(reminders[i], time_str);
     strcat(reminders[i], msg_str);
 
     num_remind++;
@@ -48,15 +55,15 @@ int main(int argc, char const *argv[])
   return 0;
 }
 
-int read_line(char str[], int n) {
+int read_line(char str[], int n)
+{
   int ch, i = 0;
 
   while ((ch = getchar()) != '\n')
   {
     if (i < n)
-    str[i++] = ch;
+      str[i++] = ch;
   }
   str[i] = '\0';
   return i;
-  
 }
